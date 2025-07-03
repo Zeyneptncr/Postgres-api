@@ -1,18 +1,15 @@
-const express = require('express');
-const router = express.Router();
 const service = require('../services/kisilerService');
 
-
-router.get('/', async (req, res) => {
+async function listAll(req, res) {
   try {
     const kisiler = await service.listAll();
     res.json(kisiler);
   } catch (err) {
     res.status(500).send('Veri çekme hatası: ' + err.message);
   }
-});
+}
 
-router.get('/:id', async (req, res) => {
+async function getById(req, res) {
   const id = parseInt(req.params.id);
   if (isNaN(id)) return res.status(400).send('Geçersiz ID');
 
@@ -23,9 +20,9 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).send('Veri çekme hatası: ' + err.message);
   }
-});
+}
 
-router.post('/', async (req, res) => {
+async function createKisi(req, res) {
   const { ad, soyad, tcno, adres } = req.body;
   if (!ad || !soyad || !tcno || !adres)
     return res.status(400).send('ad, soyad, tcno ve adres zorunludur.');
@@ -36,9 +33,9 @@ router.post('/', async (req, res) => {
   } catch (err) {
     res.status(500).send('Kayıt hatası: ' + err.message);
   }
-});
+}
 
-router.put('/:id', async (req, res) => {
+async function updateKisi(req, res) {
   const id = parseInt(req.params.id);
   const { ad, soyad, tcno, adres } = req.body;
   if (isNaN(id)) return res.status(400).send('Geçersiz ID');
@@ -52,9 +49,9 @@ router.put('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).send('Güncelleme hatası: ' + err.message);
   }
-});
+}
 
-router.delete('/:id', async (req, res) => {
+async function deleteKisi(req, res) {
   const id = parseInt(req.params.id);
   if (isNaN(id)) return res.status(400).send('Geçersiz ID');
 
@@ -65,6 +62,13 @@ router.delete('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).send('Silme hatası: ' + err.message);
   }
-});
+}
 
-module.exports = router;
+module.exports = {
+  listAll,
+  getById,
+  createKisi,
+  updateKisi,
+  deleteKisi,
+};
+

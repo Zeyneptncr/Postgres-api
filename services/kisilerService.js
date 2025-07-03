@@ -1,20 +1,24 @@
+const Kisi = require('../entity/Kisi');
 const repository = require('../repositories/kisilerRepository');
 
 async function listAll() {
-  return await repository.getAll();
+  const rows = await repository.getAll();
+  return rows.map(row => new Kisi(row));
 }
 
 async function getById(id) {
-  return await repository.getById(id);
+  const row = await repository.getById(id);
+  return row ? new Kisi(row) : null;
 }
 
-async function createKisi(kisi) {
-  // İş kuralları burada yapılabilir
-  return await repository.create(kisi);
+async function createKisi(kisiData) {
+  const row = await repository.create(kisiData);
+  return new Kisi(row);
 }
 
-async function updateKisi(id, kisi) {
-  return await repository.update(id, kisi);
+async function updateKisi(id, kisiData) {
+  const row = await repository.update(id, kisiData);
+  return row ? new Kisi(row) : null;
 }
 
 async function deleteKisi(id) {
