@@ -9,7 +9,7 @@ const client = new Client({
 });
 
 client.connect()
-  .then(() => console.log('✅ Veritabanı bağlantısı db.js üzerinden kuruldu'))
-  .catch(err => console.error('❌ DB bağlantı hatası:', err.stack));
+  .then(() => console.log(' Veritabanı bağlantısı db.js üzerinden kuruldu'))
+  .catch(err => console.error(' DB bağlantı hatası:', err.stack));
 
 module.exports = client;
