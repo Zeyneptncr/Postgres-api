@@ -1,4 +1,6 @@
-const Kisi = require('../entity/Kisi');
+//entitiykisi dosyasındaki kisi sınıfını içe akatarıyor
+const Kisi = require('../entity/kisi');
+// rpeository veri erişim katmanı , veritabanına erişilir
 const repository = require('../repositories/kisilerRepository');
 
 async function listAll() {
