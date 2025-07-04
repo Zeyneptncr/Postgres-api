@@ -1,5 +1,6 @@
+// require kisilerservice modülünü içe aktarıyor
 const service = require('../services/kisilerService');
-
+// listall tüm kişileri listeler
 async function listAll(req, res) {
   try {
     const kisiler = await service.listAll();
@@ -9,6 +10,7 @@ async function listAll(req, res) {
   }
 }
 
+//getByld url parametrei olarak gelen idyi alır sayıya çevirir
 async function getById(req, res) {
   const id = parseInt(req.params.id);
   if (isNaN(id)) return res.status(400).send('Geçersiz ID');
@@ -21,11 +23,12 @@ async function getById(req, res) {
     res.status(500).send('Veri çekme hatası: ' + err.message);
   }
 }
-
+// createkisi post isteği ile yeni kişi ekler
 async function createKisi(req, res) {
   const { ad, soyad, tcno, adres } = req.body;
-  if (!ad || !soyad || !tcno || !adres)
+  if (!ad || !soyad || !tcno || !adres) { 
     return res.status(400).send('ad, soyad, tcno ve adres zorunludur.');
+  }
 
   try {
     const yeniKisi = await service.createKisi({ ad, soyad, tcno, adres });
@@ -34,13 +37,14 @@ async function createKisi(req, res) {
     res.status(500).send('Kayıt hatası: ' + err.message);
   }
 }
-
+// updatekisi put isteği ile belirtilen id deki kişiyi günceller
 async function updateKisi(req, res) {
   const id = parseInt(req.params.id);
   const { ad, soyad, tcno, adres } = req.body;
   if (isNaN(id)) return res.status(400).send('Geçersiz ID');
-  if (!ad || !soyad || !tcno || !adres)
+  if (!ad || !soyad || !tcno || !adres) {
     return res.status(400).send('ad, soyad, tcno ve adres zorunludur.');
+  }
 
   try {
     const guncellenen = await service.updateKisi(id, { ad, soyad, tcno, adres });
@@ -50,7 +54,7 @@ async function updateKisi(req, res) {
     res.status(500).send('Güncelleme hatası: ' + err.message);
   }
 }
-
+ // delete sil işlem
 async function deleteKisi(req, res) {
   const id = parseInt(req.params.id);
   if (isNaN(id)) return res.status(400).send('Geçersiz ID');
@@ -71,4 +75,3 @@ module.exports = {
   updateKisi,
   deleteKisi,
 };
-
